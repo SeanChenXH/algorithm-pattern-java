@@ -240,7 +240,7 @@ private void backtrack(int[] candidates, int pos, int target, List<Integer> answ
 }
 ```
 
-> [39. 组合总和-II](https://leetcode.com/problems/combination-sum-ii/)
+> [40. 组合总和-II](https://leetcode.com/problems/combination-sum-ii/)
 >
 > 给定一个**重复元素**的数组 `candidates` 和一个目标数 `target` ，找出 `candidates` 中所有可以使数字和为 `target` 的组合。
 >
