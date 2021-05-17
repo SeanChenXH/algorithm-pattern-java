@@ -200,6 +200,12 @@ private void backtrack(int[] nums, boolean[] visited, List<Integer> list, List<L
 > - 所有数字（包括 `target`）都是正整数。
 > - 解集不能包含重复的组合。 
 
+```html
+given candidate set [2, 3, 6, 7] and target 7,
+A solution set is:
+[[7],[2, 2, 3]]
+```
+
 ```java
 public List<List<Integer>> combinationSum(int[] candidates, int target) {
     List<Integer> answer = new ArrayList();
@@ -230,6 +236,66 @@ private void backtrack(int[] candidates, int pos, int target, List<Integer> answ
         backtrack(candidates, i, target - candidates[i], answer, result);
         // 移除元素
         answer.remove(answer.size() - 1);
+    }
+}
+```
+
+> [39. 组合总和-II](https://leetcode.com/problems/combination-sum-ii/)
+>
+> 给定一个**重复元素**的数组 `candidates` 和一个目标数 `target` ，找出 `candidates` 中所有可以使数字和为 `target` 的组合。
+>
+> `candidates` 中的数字只能使用一次。
+>
+> **说明：**
+>
+> - 所有数字（包括 `target`）都是正整数。
+> - 解集不能包含重复的组合。 
+
+```html
+For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8,
+A solution set is:
+[
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
+]
+```
+
+```java
+public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+    List<Integer> answer = new ArrayList<>();
+    List<List<Integer>> result = new ArrayList<>();
+    boolean[] visited = new boolean[candidates.length];
+    //先排序
+    Arrays.sort(candidates);
+    backtracking(result, answer, candidates, target, 0,visited);
+    return result;
+}
+
+public void backtracking(List<List<Integer>> result, List<Integer> answer, int[] candidates, int target, int pos, boolean[] visited){
+    
+    if(target == 0){
+        result.add(new ArrayList<Integer>(answer));
+    }
+    
+    for(int i = pos; i < candidates.length; i++){
+        // 剪枝：后续元素都比目标大，直接break（比continue要快）
+        if (candidates[i] > target) {
+            break;
+        }
+        // 上一个元素和当前相同，并且没有访问过就跳过
+        if(i != 0 && candidates[i] == candidates[i-1] && !visited[i-1]){
+            continue;
+        }
+        // 添加元素 
+        answer.add(candidates[i]);
+        visited[i] =true;
+        // 元素不可重复取，从下一个位置继续
+        backtracking(result, answer, candidates, target-candidates[i], i+1, visited);
+        // 移除元素
+        visited[i] = false;
+        answer.remove(answer.size()-1);
     }
 }
 ```
